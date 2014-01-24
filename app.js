@@ -13,21 +13,23 @@ var segments = {};
 // better thread lightly when writing scripts.
 function parse(text) {
     var lines = text.split(/\r?\n/);
-    console.log(lines);
     var state = "init";
 
     var pat_branch = /^\*([^\*]+)\*\s?(.+)$/;
     var pat_code_start = /^--\s*$/; 
     var pat_code_end   = /^--\s*$/; 
+    var pat_marker = /^%%\s*(->)?\s*(\w+)$/;
+    var pat_empty = /^\s*$/;
     for (var ix = 0; ix < lines.length; ++ix) {
         var line = lines[ix];
         var match;
         var segment;
         if (/^#/.test(line)) continue; // allow comments
-        if (match = /^% (\w+)$/.exec(line)) {
+        if (match = /^%\s*(\w+)$/.exec(line)) {
             state = 'bigsegment';
             var name = match[1]; 
             segment = segments[name] = [];
+            segment.labels = {};
             continue;
         }
 
@@ -62,8 +64,32 @@ function parse(text) {
             });
             ix = jx; // skip code end line
             continue;
+        } else if (match = pat_marker.exec(line)) {
+            var label = {
+                type : 'label',
+                jump : match[1],
+                name : match[2],
+            };
+            // populate label map
+            if (!label.jump) {
+                segment.labels[label.name] = label;
+            }
+            segment.push(label);
+            continue;
+        } else if (!pat_empty.test(line)){
+            // group text lines together for fancy printing
+            var group = {
+                type : 'text',
+                lines : [],
+            };
+            var jx = ix;
+            do {
+                group.lines.push(lines[jx++]);
+            } while (!pat_empty.test(lines[jx]));
+            segment.push(group);
+            ix = jx; // skip to next non empty line
+            continue;
         }
-
     }
 }
 
@@ -73,6 +99,11 @@ $.get('intro.txt', function(response){
     console.log('-------');
     console.log(segments);
 })
+
+
+// debug expose to global
+window.segments = segments;
+window.settings = settings;
 
 })
 
