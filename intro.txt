@@ -18,14 +18,16 @@
 *?* “现在几点了？”
 *?* “我只是在为接下来的战斗做准备呢，华生。”
 *true* “真的”
-*0* “假的”
+*settings.setit* “假的”
 
 --
 if (state.choice == 0) {
-    state.set_next("telltime");
-} else {
-    state.set_next("watson");
+    control.to_label("telltime");
+} else if (state.choice == 1) {
+    control.to_label("watson");
     settings.watson = true;
+} else {
+    settings.setit = true;
 }
 --
 
@@ -51,7 +53,7 @@ if (state.choice == 0) {
 我打开车门，一股寒风立马吹到了脸上。
 
 --
-jump_to("starting");
+control.jump_to("starting");
 --
 
 % starting
@@ -60,4 +62,6 @@ jump_to("starting");
 
 --
 console.log("yes");
+alert('yeah!');
+control.jump_to("intro");
 --

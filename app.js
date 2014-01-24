@@ -172,6 +172,48 @@ function evaluator() {
                 next_block();
             });
         },
+        code : function(code) {
+            var control = new function() {
+                var self = this;
+                this.to_label = function(label) {
+                    self.next_label = label;
+                };
+                this.jump_to = function(segname) {
+                    self.next_seg = segname;
+                }
+            };
+            eval(code.code);
+            // handle the outcome
+            if (control.next_seg) {
+                state.seg = segments[control.next_seg];
+                if (!state.seg) throw "invalid segment jump:" + control.next_seg;
+                // jumping into label in another segment
+                if (control.next_label) {
+                    var next = state.seg.labels[control.next_label]
+                    if (!next)
+                        throw "invalid seg+label jump:" + control.next_seg + ":" + control.next_label;
+                    next_block(next);
+                } else {
+                    next_block(state.seg[0]);
+                }
+                return;
+            } else if (control.next_label) {
+                var next = state.seg.labels[control.next_label];
+                if (!next) throw "invalid lable jump:" + control.next_label;
+                next_block(next);
+            } else {
+                next_block();
+            }
+        },
+        label : function(label) {
+            if (label.jump) {
+                var next = state.seg.labels[label.name];
+                if (!next) throw "invalid jump label:" + label.name;
+                next_block(next);
+            } else {
+                next_block();
+            }
+        }
 
     };
 
@@ -190,8 +232,8 @@ function evaluator() {
         return state.seg[block_in_seg+1];
     }
 
-    function next_block() {
-        state.block = get_next();
+    function next_block(block) {
+        state.block = block || get_next();
 
         // necessary resets
         state.print_interval = constants.usual_print;
@@ -203,8 +245,6 @@ function evaluator() {
             next_block();
         } else if (state.status == 'printing') {
             state.print_interval /= 5;
-        } else if (state.status == 'branching') {
-            // pass
         }
         return false;
     }
