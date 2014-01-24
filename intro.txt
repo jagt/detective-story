@@ -21,10 +21,10 @@
 *0* “假的”
 
 --
-if (choice == 0) {
-    set_next("telltime");
+if (state.choice == 0) {
+    state.set_next("telltime");
 } else {
-    set_next("watson");
+    state.set_next("watson");
     settings.watson = true;
 }
 --

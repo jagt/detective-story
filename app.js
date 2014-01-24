@@ -3,11 +3,25 @@ $(function(){
 
 console.log("hello world");
 
+// global constants
+var constants = {
+    usual_print : 80,
+};
+
 // global in game settings 
 var settings = {};
 
 // all segments
 var segments = {};
+
+// global game state
+var state = {
+    status : 'idle',
+    block : null, // current executing block
+    seg : null, // current segment
+    print_interval : constants.usual_print,
+
+};
 
 // really shitty parser. process line by line. can't really handle any bad input so
 // better thread lightly when writing scripts.
@@ -93,17 +107,85 @@ function parse(text) {
     }
 }
 
+// evaluator, handle io and print text as they go
+function evaluator() {
+    state.seg = segments['intro']; // starting from intro
+    var block_ix = 0;
+
+    // use global state to synchronize
+    var handlers = {
+        text : function(text) {
+            var $text = $('<p></p>').appendTo($content);
+            var timeoutid;
+            var line_ix = 0;
+            var char_ix = 0;
+            state.status = 'printing';
+            var text_printer = function() {
+                var line = text.lines[line_ix];
+                if (!line) {
+                    clearTimeout(timeoutid);
+                    $text.append('<br/><br/>');
+                    state.status = 'idle';
+                    return;
+                }
+                var interval = state.print_interval;
+                if (char_ix < line.length) {
+                    $text.append(line[char_ix++]);
+                } else {
+                    $text.append('<br/>');
+                    line_ix += 1;
+                    char_ix = 0;
+                    interval *= 3; // stop a little bit longer on new line
+                }
+                timeoutid = setTimeout(text_printer, interval);
+            }
+            timeoutid = setTimeout(text_printer, state.print_interval);
+        },
+    };
+
+    function handle_block() {
+        handlers[state.block.type](state.block);
+    }
+
+    function next_block() {
+        var block_in_seg = state.seg.indexOf(state.block);
+        state.block = state.seg[block_in_seg+1];
+
+        // necessary resets
+        state.print_interval = constants.usual_print;
+        handle_block();
+    }
+
+    function global_click_callback(e) {
+        if (state.status == 'idle') {
+            next_block();
+        } else if (state.status == 'printing') {
+            state.print_interval /= 5;
+        }
+        return false;
+    }
+    $(document).on('click', global_click_callback);
+
+    // kick off
+    state.block = state.seg[0];
+    handle_block();
+}
+
+
 var $content = $('#content');
 $.get('intro.txt', function(response){
     parse(response);
     console.log('-------');
     console.log(segments);
+
+    evaluator();
 })
 
 
-// debug expose to global
+// expose to global
 window.segments = segments;
 window.settings = settings;
+window.state = state;
 
 })
 
