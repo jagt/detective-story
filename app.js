@@ -256,12 +256,13 @@ function evaluator() {
 }
 
 
-$.get('intro.txt', function(response){
-    parse(response);
-    console.log('-------');
-    console.log(segments);
-
+// zepto don't have ajax chains builtin...
+$.get('scripts/intro.txt', function(intro_txt){
+$.get('scripts/programmer.txt', function(programmer_txt){
+    parse(intro_txt);
+    parse(programmer_txt);
     evaluator();
+})
 })
 
 
