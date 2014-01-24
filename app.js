@@ -5,7 +5,7 @@ console.log("hello world");
 
 // global constants
 var constants = {
-    usual_print : 80,
+    usual_print : 50,
 };
 
 // global in game settings 
@@ -22,6 +22,11 @@ var state = {
     print_interval : constants.usual_print,
 
 };
+
+// dom
+var $content = $('#content');
+var $main = $('#main');
+var $triangle = $('#triangle');
 
 // really shitty parser. process line by line. can't really handle any bad input so
 // better thread lightly when writing scripts.
@@ -107,6 +112,7 @@ function parse(text) {
     }
 }
 
+
 // evaluator, handle io and print text as they go
 function evaluator() {
     state.seg = segments['intro']; // starting from intro
@@ -115,17 +121,19 @@ function evaluator() {
     // use global state to synchronize
     var handlers = {
         text : function(text) {
-            var $text = $('<p></p>').appendTo($content);
+            var $text = $('<p></p>').appendTo($main);
             var timeoutid;
             var line_ix = 0;
             var char_ix = 0;
             state.status = 'printing';
+            $triangle.hide();
             var text_printer = function() {
                 var line = text.lines[line_ix];
                 if (!line) {
                     clearTimeout(timeoutid);
                     $text.append('<br/><br/>');
                     state.status = 'idle';
+                    $triangle.show();
                     return;
                 }
                 var interval = state.print_interval;
@@ -135,7 +143,7 @@ function evaluator() {
                     $text.append('<br/>');
                     line_ix += 1;
                     char_ix = 0;
-                    interval *= 3; // stop a little bit longer on new line
+                    interval *= 5; // stop a little bit longer on new line
                 }
                 timeoutid = setTimeout(text_printer, interval);
             }
@@ -172,7 +180,6 @@ function evaluator() {
 }
 
 
-var $content = $('#content');
 $.get('intro.txt', function(response){
     parse(response);
     console.log('-------');

@@ -20,4 +20,11 @@ html, body {
     border: 1px #222 solid;
     margin: 1em 1em;
     padding: 1em 0.5em;
+    line-height: 1.4em;
+}
+
+#triangle {
+    padding-top: 0.5em;
+    font-size: 6px;
+    display: none;
 }
