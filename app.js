@@ -19,8 +19,8 @@ var state = {
     status : 'idle',
     block : null, // current executing block
     seg : null, // current segment
+    choice : null, // last choice result
     print_interval : constants.usual_print,
-
 };
 
 // dom
@@ -60,14 +60,16 @@ function parse(text) {
             var next_line;
             do {
                 branches.push({
-                    type : 'branches',
                     pred : match[1],
                     text : match[2],
                 });
                 next_line = lines[++jx];
             } while (match = pat_branch.exec(next_line));
             ix = jx;
-            segment.push(branches);
+            segment.push({
+                type : 'branches',
+                cases : branches,
+            });
             continue;
         } else if (match = pat_code_start.test(line)) {
             // consume a code block
@@ -131,9 +133,15 @@ function evaluator() {
                 var line = text.lines[line_ix];
                 if (!line) {
                     clearTimeout(timeoutid);
-                    $text.append('<br/><br/>');
-                    state.status = 'idle';
-                    $triangle.show();
+                    $text.append('<br/>');
+                    // peek if next block is a branch block
+                    var next = get_next();
+                    if (next && next.type == 'branches') {
+                        next_block()
+                    } else {
+                        state.status = 'idle';
+                        $triangle.show();
+                    }
                     return;
                 }
                 var interval = state.print_interval;
@@ -149,15 +157,41 @@ function evaluator() {
             }
             timeoutid = setTimeout(text_printer, state.print_interval);
         },
+        branches : function(branches) {
+            var $ul = $('<ul class="branches"></ul>').appendTo($main);
+            state.status = 'branching'
+            $.each(branches.cases, function(ix, branch){
+                if (branch.pred == '?' || eval(branch.pred)) {
+                    $('<li></li>').data('branch_index', ix)
+                                  .html("<span>"+branch.text+"</span>").appendTo($ul);
+                }
+            });
+            $('li', $ul).one('click', function(e){
+                state.choice = parseInt( $(this).data('branch_index') );
+                clean_main();
+                next_block();
+            });
+        },
+
     };
 
+    function clean_main() {
+        $main.empty();
+    }
+
     function handle_block() {
+        console.log("doing block:")
+        console.log(state.block);
         handlers[state.block.type](state.block);
     }
 
-    function next_block() {
+    function get_next() {
         var block_in_seg = state.seg.indexOf(state.block);
-        state.block = state.seg[block_in_seg+1];
+        return state.seg[block_in_seg+1];
+    }
+
+    function next_block() {
+        state.block = get_next();
 
         // necessary resets
         state.print_interval = constants.usual_print;
@@ -169,6 +203,8 @@ function evaluator() {
             next_block();
         } else if (state.status == 'printing') {
             state.print_interval /= 5;
+        } else if (state.status == 'branching') {
+            // pass
         }
         return false;
     }

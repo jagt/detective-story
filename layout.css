@@ -28,3 +28,21 @@ html, body {
     font-size: 6px;
     display: none;
 }
+
+.branches {
+    margin-left: 2em;
+    list-style-type: square;
+}
+
+.branches li  {
+    padding-bottom: 2px;
+}
+
+.branches li span {
+    border-bottom: 1px solid transparent;
+}
+
+.branches li span:hover {
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
