@@ -5,7 +5,7 @@ console.log("hello world");
 
 // global constants
 var constants = {
-    usual_print : 50,
+    usual_print : 1,
 };
 
 // global in game settings 
@@ -34,6 +34,7 @@ function parse(text) {
     var lines = text.split(/\r?\n/);
     var state = "init";
 
+    var pat_seg = /^%\s*(.+)$/;
     var pat_branch = /^\*([^\*]+)\*\s?(.+)$/;
     var pat_code_start = /^--\s*$/; 
     var pat_code_end   = /^--\s*$/; 
@@ -43,7 +44,7 @@ function parse(text) {
         var line = lines[ix];
         var match;
         var segment;
-        if (/^#/.test(line)) continue; // allow comments
+        if (/^#/.test(line)) continue; // seems only allow top level comments
         if (match = /^%\s*(\w+)$/.exec(line)) {
             state = 'bigsegment';
             var name = match[1]; 
@@ -64,6 +65,7 @@ function parse(text) {
                     text : match[2],
                 });
                 next_line = lines[++jx];
+                if (jx > lines.length) throw "unclosing text block";
             } while (match = pat_branch.exec(next_line));
             ix = jx;
             segment.push({
@@ -106,6 +108,7 @@ function parse(text) {
             var jx = ix;
             do {
                 group.lines.push(lines[jx++]);
+                if (jx > lines.length) throw "unclosing text block";
             } while (!pat_empty.test(lines[jx]));
             segment.push(group);
             ix = jx; // skip to next non empty line
@@ -146,7 +149,11 @@ function evaluator() {
                 }
                 var interval = state.print_interval;
                 if (char_ix < line.length) {
-                    $text.append(line[char_ix++]);
+                    var c = line[char_ix++];
+                    if (c == ' ') {
+                        c = '&nbsp;';
+                    }
+                    $text.append(c);
                 } else {
                     $text.append('<br/>');
                     line_ix += 1;
@@ -181,6 +188,12 @@ function evaluator() {
                 this.jump_to = function(segname) {
                     self.next_seg = segname;
                 }
+                // extra functions
+                this.clean_main = clean_main;
+                this.reset = function() {
+                    settings = {}; // need to clean up the settings.
+                    self.jump_to('intro');
+                };
             };
             eval(code.code);
             // handle the outcome

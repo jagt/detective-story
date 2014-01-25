@@ -16,8 +16,8 @@ html, body {
 
 #content {
     width: 500px;
-    height: 400px;
-    border: 1px #222 solid;
+    /*height: 400px;*/
+    /*border: 1px #222 solid;*/
     margin: 1em 1em;
     padding: 1em 0.5em;
     line-height: 1.4em;
