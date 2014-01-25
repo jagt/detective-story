@@ -267,8 +267,8 @@ function evaluator() {
     state.block = state.seg[0];
 
     // !!!!!!!!!! DEBUG JUMP
-    state.seg = segments['magic'];
-    settings.phone = true;
+    // state.seg = segments['magic'];
+    // settings.phone = true;
 
     handle_block();
 }
