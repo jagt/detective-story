@@ -268,7 +268,7 @@ function evaluator() {
 
     // !!!!!!!!!! DEBUG JUMP
     state.seg = segments['magic'];
-    settings.phone = true;
+    settings.gun = true;
 
     handle_block();
 }
