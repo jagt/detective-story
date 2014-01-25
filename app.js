@@ -268,7 +268,6 @@ function evaluator() {
     handle_block();
 }
 
-
 // zepto don't have ajax chains builtin...
 $.get('scripts/intro.txt', function(intro_txt){
 $.get('scripts/programmer.txt', function(programmer_txt){
