@@ -271,9 +271,12 @@ function evaluator() {
 // zepto don't have ajax chains builtin...
 $.get('scripts/intro.txt', function(intro_txt){
 $.get('scripts/programmer.txt', function(programmer_txt){
+$.get('scripts/future.txt', function(future_txt){
     parse(intro_txt);
     parse(programmer_txt);
+    parse(future_txt);
     evaluator();
+})
 })
 })
 

@@ -20,17 +20,19 @@
 
 --
 if (state.choice == 0) {
-    control.to_label("telltime");
+    control.to_label("goback");
 } else if (state.choice == 1) {
     control.to_label("watson");
     settings.watson = true;
 }
 --
 
-%% telltime
+%% goback
 
+“不如我们还是回去吧。”
 “十一点整。过了这个路口我们就到了。”
 面前的人低头看着表，说话时也没有抬起头来。
+
 
 %%->continue
 
@@ -95,14 +97,14 @@ if (state.choice == 0) {
 
 *?* “开个玩笑。不过他的确叫做华生。”
 *?* “我是福尔摩斯，这位是我的助手华生。”
-*?* “我是福尔摩斯，这位是我的助手华生。&lt;script/&gt;”
+*?* “我是福尔摩斯，这位是我的助手华生。&lt;script/&gt;
 
 --
 if (state.choice == 0) {
     control.to_label("continue2");
 } else if (state.choice == 1) {
-    // jump to future entrance
-    throw "jump to future";
+    control.jump_to("future");
+    control.to_label("future_holmes");
 } else if (state.choice == 2) {
     control.jump_to("programmer");
 }
@@ -126,8 +128,13 @@ if (state.choice == 0) {
 
 %% continue2
 
-“正式自我介绍一下，我叫埃略特，是本市警局的侦探。”
+“正式自我介绍一下，我叫凯文，是本市警局的侦探。”
 “这位是华生。我的搭档。”
+华生伸出手做出握手的姿势，
+对方却一点反应都没有。
+“估计是难缠的家伙。”
+我在心里想着。
+
 
 % starting
 
