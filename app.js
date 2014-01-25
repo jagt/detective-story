@@ -169,11 +169,11 @@ function evaluator() {
             state.status = 'branching'
             $.each(branches.cases, function(ix, branch){
                 if (branch.pred == '?' || eval(branch.pred)) {
-                    $('<li></li>').data('branch_index', ix)
-                                  .html("<span>"+branch.text+"</span>").appendTo($ul);
+                    var span = $('<span></span>').text(branch.text).data('branch_index', ix);
+                    $('<li></li>').append(span).appendTo($ul);
                 }
             });
-            $('li', $ul).one('click', function(e){
+            $('li span', $ul).one('click', function(e){
                 state.choice = parseInt( $(this).data('branch_index') );
                 clean_main();
                 next_block();
