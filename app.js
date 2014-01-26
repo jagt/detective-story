@@ -5,7 +5,7 @@ console.log("hello world");
 
 // global constants
 var constants = {
-    usual_print : 1,
+    usual_print : 40,
 };
 
 // global in game settings 
@@ -158,7 +158,7 @@ function evaluator() {
                     $text.append('<br/>');
                     line_ix += 1;
                     char_ix = 0;
-                    interval *= 5; // stop a little bit longer on new line
+                    interval *= 6; // stop a little bit longer on new line
                 }
                 timeoutid = setTimeout(text_printer, interval);
             }
@@ -185,6 +185,7 @@ function evaluator() {
                 $(window).off('blur', blur_cb);
                 clean_main();
                 next_block();
+                return false;
             });
         },
         code : function(code) {
@@ -200,6 +201,7 @@ function evaluator() {
                 this.clean_main = clean_main;
                 this.reset = function() {
                     settings = {}; // need to clean up the settings.
+                    constants.usual_print = 20; // on following playthrough, have faster printing
                     self.jump_to('intro');
                 };
             };
