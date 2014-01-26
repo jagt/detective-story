@@ -215,12 +215,29 @@ control.jump_to("puzzle");
 
 % puzzle
 
+卧槽卧槽
+
+
 卧槽要是能到这里来就牛逼了
 
+*?* 测试
+*?* Cheat
+
 --
-console.log("yes");
-alert('yeah!');
-control.jump_to("intro");
+console.log("test 1");
+console.log(settings.cheated);
+--
+
+测试测试
+
+测试测试
+
+*?* 测试2
+*?* Cheat
+
+--
+console.log("test 2");
+console.log(settings.cheated);
 --
 
 

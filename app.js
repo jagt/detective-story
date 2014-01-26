@@ -167,6 +167,13 @@ function evaluator() {
         branches : function(branches) {
             var $ul = $('<ul class="branches"></ul>').appendTo($main);
             state.status = 'branching'
+            settings.cheated = false;
+            var blur_cb = function(e) {
+                settings.cheated = true;
+            };
+            $(window).on('blur', blur_cb);
+
+
             $.each(branches.cases, function(ix, branch){
                 if (branch.pred == '?' || eval(branch.pred)) {
                     var span = $('<span></span>').text(branch.text).data('branch_index', ix);
@@ -175,6 +182,7 @@ function evaluator() {
             });
             $('li span', $ul).one('click', function(e){
                 state.choice = parseInt( $(this).data('branch_index') );
+                $(window).off('blur', blur_cb);
                 clean_main();
                 next_block();
             });
@@ -267,8 +275,8 @@ function evaluator() {
     state.block = state.seg[0];
 
     // !!!!!!!!!! DEBUG JUMP
-    // state.seg = segments['magic'];
-    // settings.gun = true;
+    state.seg = segments['puzzle'];
+    state.block = state.seg[0];
 
     handle_block();
 }
