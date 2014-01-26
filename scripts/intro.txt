@@ -138,6 +138,67 @@ if (state.choice == 0) {
 “估计是难缠的家伙。”
 我在心里想着。
 
+他点了点头，
+便转身径直走向铁门边。
+
+华生见他走远了，
+靠近我低声说：
+
+“对了，那个东西带了么？”
+我下意识的摸了摸口袋，
+从触感上就能分辨出来：
+
+*?* 我带了一把手枪。
+*?* 我带了别的东西。TODO
+
+
+--
+if (state.choice == 0) {
+    control.to_label("gun_jump");
+} else if (state.choice == 1) {
+    control.to_label("continue3");
+}
+--
+
+%% gun_jump
+
+毫无疑问的，
+每次出来办案件，
+最不能少的就是手枪了。
+
+这把手枪虽然看起来外形比较普通，
+但其实上面有一个额外的开关。
+打开后可以让枪身完全隐形一段时间。
+现在的科技真是了不起啊。
+
+因为是今年才开始投入正式使用，
+知道这个功能的人，
+除了警方以外应该没有多少人了。
+
+“恩带了。”
+我回答到。
+我们一同朝着铁门走过去。
+那位男士站在们门边，
+正转身看着我们。
+
+--
+settings.gun = true;
+settings.already_chosen = true; // skip gun/phone select.
+control.jump_to("future");
+control.to_label("future_gunjump");
+--
+
+
+%% continue3
+
+“恩带了。”
+
+
+
+
+
+
+
 
 % starting
 
