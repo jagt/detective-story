@@ -325,13 +325,13 @@ control.clean_main();
          第一题
 ※※※※※※※※※※※※※
 
-“以下三个英文单词里，哪一个不是口袋妖怪的名字？”
+“以下四个选项里，哪一个不是口袋妖怪的名字？”
 
 
-*?* a.Jigglypuff
-*?* b.Frodo
-*?* c.Squlrtle
-*?* d.Pikachu
+*?* a.胖丁
+*?* b.佛罗多
+*?* c.杰尼龟
+*?* d.比卡丘
 *?* e.请求华生帮助。
 
 --
@@ -341,7 +341,7 @@ settings.correct = (state.choice == 1);
 
 %% q1a0
 
-我选择了 a.Jigglypuff 
+我选择了 a.胖丁
 
 --
 control.jump_to("puzzle_fail");
@@ -349,7 +349,7 @@ control.jump_to("puzzle_fail");
 
 %% q1a1
 
-我选择了 b.Frodo 
+我选择了 b.佛罗多
 
 --
 if (!settings.helped && settings.cheated) {
@@ -357,11 +357,12 @@ if (!settings.helped && settings.cheated) {
 } else {
     control.to_label("q2");
 }
+settings.helped = false; // need to clean this to enable cheat detect
 --
 
 %% q1a2
 
-我选择了 c.Squlrtleq
+我选择了 c.杰尼龟
 
 --
 control.jump_to("puzzle_fail");
@@ -369,7 +370,7 @@ control.jump_to("puzzle_fail");
 
 %% q1a3
 
-我选择了 d.Pikachu
+我选择了 d.比卡丘
 
 --
 control.jump_to("puzzle_fail");
@@ -450,6 +451,7 @@ if (!settings.helped && settings.cheated) {
 } else {
     control.to_label("q3");
 }
+settings.helped = false; // need to clean this to enable cheat detect
 --
 
 %% q2a3
@@ -490,35 +492,124 @@ settings.watson_help = true;
 “那么请看第三题：”
 
 
+--
+control.clean_main();
+--
 
 
+※※※※※※※※※※※※※
+         第三题
+※※※※※※※※※※※※※
+
+“下列列出的四首歌里面，哪一首是周杰伦翻唱别人的？”
 
 
+*?* a.以父之名
+*?* b.斗牛
+*?* c.双节棍
+*?* d.你比从前快乐
+*!settings.watson_help* e.请求华生帮助。
+
+--
+control.to_label("q3a"+state.choice);
+settings.correct = (state.choice == 3);
+--
+
+%% q3a0
+
+我选择了 a.以父之名
+
+--
+control.jump_to("puzzle_fail");
+--
+
+%% q3a1
+
+我选择了 b.斗牛
+
+--
+control.jump_to("puzzle_fail");
+--
+
+%% q3a2
+
+我选择了 c.双节棍
+
+--
+control.jump_to("puzzle_fail");
+--
 
 
-卧槽要是能到这里来就牛逼了
+%% q3a3
 
-*?* 测试
-*?* Cheat
+我选择了 d.你比从前快乐
+
+--
+if (!settings.helped && settings.cheated) {
+    control.jump_to("puzzle_cheat");
+} else {
+    control.to_label("final");
+}
+settings.helped = false; // need to clean this to enable cheat detect
+--
+
+%% q3a4
+
+“答案应该是 D。”
+华生说道。
+
+我使用了唯一的一次求助机会。
+
+--
+settings.helped = true;
+settings.watson_help = true;
+--
+
+%%->q3a3
 
 
+%% final
+
+...
+
+“那么，凯文有没有答对这最后一题呢？”
+
+现场响起了急促的鼓声。
+
+说实话我也很着急。
+不要败在这最后一刻啊。
+
+...
+
+...
+
+“恭喜你，答对了！”
+
+场内放弃了热情洋溢的因为，
+观众席上也一片沸腾。
+
+“恭喜凯文，获得了壹佰万元的奖金。”
+
+我一时间不知以什么表情来面对，
+这一切发生的，
+实在是太突然了。
+
+我转头望向华生，
+他也在激动的像我挥手。
+
+主持人好像还在不停说着什么，
+但我的意识已经飘到了别的地方。
+
+这一百万要用来做什么呢？
+
+...
+
+但首先还是希望不要被扣掉太多税啊。
 
 
+(完) - 电视节目篇 Good Ending
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*?* 重新开始
 
 
 % puzzle_fail
@@ -527,8 +618,8 @@ settings.watson_help = true;
 
 “很遗憾，你答错了。”
 
-额，
-怎么会这样。
+怎么可能，
+我记得明明就应该是这个啊...
 
 
 我看着华生，
@@ -579,45 +670,7 @@ control.reset();
 
 *?* 重新开始
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --
-console.log("test 1");
-console.log(settings.cheated);
+control.reset();
 --
-
-测试测试
-
-测试测试
-
-*?* 测试2
-*?* Cheat
-
---
-console.log("test 2");
-console.log(settings.cheated);
---
-
-
-
-
-
-
-
 

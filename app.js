@@ -275,8 +275,8 @@ function evaluator() {
     state.block = state.seg[0];
 
     // !!!!!!!!!! DEBUG JUMP
-    state.seg = segments['puzzle'];
-    state.block = state.seg.labels['q1'];
+    // state.seg = segments['puzzle'];
+    // state.block = state.seg.labels['q1'];
 
     handle_block();
 }
