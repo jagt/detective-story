@@ -380,6 +380,8 @@ control.jump_to("puzzle_fail");
 “答案应该是 B。”
 华生说道。
 
+我使用了唯一的一次求助机会。
+
 --
 settings.helped = true;
 settings.watson_help = true;
@@ -390,8 +392,109 @@ settings.watson_help = true;
 
 %% q2
 
+...
 
-第二题
+“恭喜你答对了！”
+
+舞台上方飘下了彩带。
+这也太夸张了吧...
+
+“那么请看第二题：”
+
+--
+control.clean_main();
+--
+
+
+※※※※※※※※※※※※※
+         第二题
+※※※※※※※※※※※※※
+
+“下列食物钟，不是植物果实的是？”
+
+
+*?* a.番茄
+*?* b.黄瓜
+*?* c.花生米
+*?* d.南瓜
+*!settings.watson_help* e.请求华生帮助。
+
+--
+control.to_label("q2a"+state.choice);
+settings.correct = (state.choice == 2);
+--
+
+%% q2a0
+
+我选择了 a.番茄
+
+--
+control.jump_to("puzzle_fail");
+--
+
+%% q2a1
+
+我选择了 b.黄瓜
+
+--
+control.jump_to("puzzle_fail");
+--
+
+%% q2a2
+
+我选择了 c.花生米
+
+--
+if (!settings.helped && settings.cheated) {
+    control.jump_to("puzzle_cheat");
+} else {
+    control.to_label("q3");
+}
+--
+
+%% q2a3
+
+我选择了 d.南瓜
+
+--
+control.jump_to("puzzle_fail");
+--
+
+%% q2a4
+
+“答案应该是 C。”
+华生说道。
+
+我使用了唯一的一次求助机会。
+
+--
+settings.helped = true;
+settings.watson_help = true;
+--
+
+%%->q2a2
+
+
+
+%% q3
+
+
+...
+
+“恭喜你答对了！”
+
+舞台上喷出了白色的烟雾。
+感觉稍微有点无语。
+
+
+“那么请看第三题：”
+
+
+
+
+
+
+
 
 卧槽要是能到这里来就牛逼了
 
