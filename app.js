@@ -284,6 +284,11 @@ function evaluator() {
 }
 
 // zepto don't have ajax chains builtin...
+var $scripts = $('#gamescripts');
+if ($scripts.length) {
+   parse($scripts.text());
+   evaluator();   
+} else {
 $.get('scripts/intro.txt', function(intro_txt){
 $.get('scripts/programmer.txt', function(programmer_txt){
 $.get('scripts/future.txt', function(future_txt){
@@ -297,6 +302,7 @@ $.get('scripts/magic.txt', function(magic_txt){
 })
 })
 })
+}
 
 
 // expose to global
