@@ -183,7 +183,7 @@ control.jump_to('goodprogrammer');
 我这样想着，
 开始专心的编写代码。
 
-(完) - 程序员篇 Good Ending
+(完) - 程序员篇 Good Ending (#4/4)
 
 *?* 重新开始
 
@@ -222,7 +222,7 @@ control.reset();
 今年冬天果然特别的冷。
 
 
-(完) - 程序员篇 Bad Ending
+(完) - 程序员篇 Bad Ending (#10/10)
 
 *?* 重新开始
 

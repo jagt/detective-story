@@ -100,7 +100,7 @@ if (state.choice == 0) {
 
 *?* “开个玩笑。不过他的确叫做华生。”
 *?* “我是福尔摩斯，这位是我的助手华生。”
-*?* “我是福尔摩斯，这位是我的助手华生。<script/>;
+*?* “我是福尔摩斯，这位是我的助手华生。<script/>
 
 --
 if (state.choice == 0) {
@@ -608,7 +608,7 @@ settings.watson_help = true;
 但首先还是希望不要被扣掉太多税啊。
 
 
-(完) - 电视节目篇 Good Ending
+(完) - 电视节目篇 Good Ending (#1/4)
 
 *?* 重新开始
 
@@ -630,7 +630,7 @@ settings.watson_help = true;
 平常还是要多看点书啊。
 
 
-(完) - 电视节目篇 Bad Ending 1
+(完) - 电视节目篇 Bad Ending 1 (#6/10)
 
 *?* 重新开始
 
@@ -667,7 +667,7 @@ control.reset();
 这是我失去意识前，最后的想法。
 
 
-(完) - 电视节目篇 Bad Ending 2
+(完) - 电视节目篇 Bad Ending 2 (#7/10)
 
 *?* 重新开始
 

@@ -633,7 +633,7 @@ if (state.choice == 0) {
 对不起了，
 不过这次我真的努力了。
 
-(完) - 魔法使篇 Bad Ending 1
+(完) - 魔法使篇 Bad Ending 1 (#8/10)
 
 *?* 重新开始
 
@@ -824,7 +824,7 @@ if (state.choice == 0) {
 就不会变成今天这幅模样了吧。
 
 
-(完) - 魔法使篇 Bad Ending 2
+(完) - 魔法使篇 Bad Ending 2 (#9/10)
 
 *?* 重新开始
 
@@ -917,7 +917,7 @@ control.clean_main();
 
 “回去吧。”
 
-(完) - 魔法使篇 Good Ending
+(完) - 魔法使篇 Good Ending (#3/4)
 
 *?* 重新开始
 
